@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, theme } from "antd";
 import {
   BulbOutlined,
@@ -32,7 +32,14 @@ const AppLayout = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const [channals, setChannals] = useState([]);
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/channals")
+      .then((res) => res.json())
+      .then((data) => {
+        setChannals(data);
+      });
+  }, []);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -58,12 +65,11 @@ const AppLayout = () => {
           <Menu.Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Home</Link>
           </Menu.Item>
-          <Menu.Item key="/didyouknow" icon={<BulbOutlined />}>
-            <Link to="/didyouknow">Did You Know</Link>
-          </Menu.Item>
-          <Menu.Item key="/bluestudio" icon={<VideoCameraOutlined />}>
-            <Link to="/bluestudio">Blue Studio</Link>
-          </Menu.Item>
+          {channals.map((channal) => (
+            <Menu.Item key={`/${channal}`} icon={<HomeOutlined />}>
+              <Link to={`/${channal}`}>{channal}</Link>
+            </Menu.Item>
+          ))}
         </Menu>
       </Sider>
       <Layout>

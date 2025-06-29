@@ -13,6 +13,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import MainTable from "./maintable";
+import GalleryPage from "./Gallary";
 
 const { Header, Content, Sider } = Layout;
 
@@ -67,9 +68,12 @@ const AppLayout = () => {
           </Menu.Item>
           {channals.map((channal) => (
             <Menu.Item key={`/${channal}`} icon={<HomeOutlined />}>
-              <Link to={`/${channal}`}>{channal}</Link>
+              <Link to={`/channel/${channal}`}>{channal}</Link>
             </Menu.Item>
           ))}
+          <Menu.Item key={`/gallery`} icon={<HomeOutlined />}>
+            <Link to={`/gallery`}>Gallery</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -84,7 +88,11 @@ const AppLayout = () => {
           >
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/:type" element={<MainTable />} />
+              <Route path="/channel/:type" element={<MainTable />} />
+              <Route
+                path="/gallery"
+                element={<GalleryPage channals={channals} />}
+              />
               {/* {"bluestudio, didyouknow"} */}
             </Routes>
           </div>
